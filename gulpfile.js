@@ -34,7 +34,6 @@ gulp.task('build-client', () => {
       quiet: true,
       devtool: 'inline-source-map',
       output: {
-        //path: path.join(__dirname, 'static'),
         filename: '_bundle.js'
       },
       module: {
