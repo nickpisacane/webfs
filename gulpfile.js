@@ -1,5 +1,4 @@
 const fs = require('fs')
-const path = require('path')
 const gulp = require('gulp')
 const babel = require('gulp-babel')
 const cache = require('gulp-cached')
@@ -26,7 +25,6 @@ gulp.task('compile', () => {
     .pipe(gulp.dest('build'))
     .pipe(notify('Compiled SRC'))
 })
-
 
 gulp.task('build-client', () => {
   return gulp.src('src/client/index.js')
