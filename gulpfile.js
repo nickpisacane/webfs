@@ -5,9 +5,9 @@ const babel = require('gulp-babel')
 const cache = require('gulp-cached')
 const notify_ = require('gulp-notify')
 const webpack = require('webpack-stream')
+const del = require('del')
 
 const babelOptions = JSON.parse(fs.readFileSync('.babelrc', 'utf-8'))
-console.log('babel options: ', babelOptions)
 const notify = msg => notify_({
   title: 'WebFS',
   message: msg,
@@ -19,6 +19,10 @@ gulp.task('compile', () => {
   return gulp.src('src/**/*.js')
     .pipe(cache('src'))
     .pipe(babel(babelOptions))
+    .on('error', function (err) {
+      console.error(err.stack)
+      this.emit('end')
+    })
     .pipe(gulp.dest('build'))
     .pipe(notify('Compiled SRC'))
 })
@@ -52,16 +56,22 @@ gulp.task('build-client', () => {
     .pipe(notify('Built client'))
 })
 
+gulp.task('clean', () => {
+  return del('build')
+})
+
 gulp.task('default', [
+  'clean',
   'compile',
   'build-client'
 ])
 
-gulp.task('watch-client', () => {
-  return gulp.watch('src/+(routes|client)/**/*.js', ['compile', 'build-client'])
-})
-gulp.task('watch-server', () => {
-  return gulp.watch('src/server/**/*.js', ['compile'])
+gulp.task('watch-compile', () => {
+  return gulp.watch('src/**/*.js', ['clean', 'compile'])
 })
 
-gulp.task('watch', ['watch-client', 'watch-server'])
+gulp.task('watch-build-client', () => {
+  return gulp.watch('src/!(server)/**/*.js', ['build-client'])
+})
+
+gulp.task('watch', ['default', 'watch-compile', 'watch-build-client'])
