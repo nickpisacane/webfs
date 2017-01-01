@@ -29,17 +29,23 @@ const childResolvers = {
 }
 
 export default class Node {
-  constructor (relativePath, fs) {
+  constructor ({
+    fs = 'LOCAL_FS',
+    path: relativePath,
+    context,
+    staticBaseURL
+  } = {}) {
     this._relativePath = relativePath
     this._fs = fs
-    this._absolutePath = path.join(config.context, this._relativePath)
-    this._ext = path.extname(this._relativePath)
+    this._context = context
+    this._staticBaseURL = staticBaseURL
+    this._absolutePath = path.join(this._context, this._relativePath)
     this._didLoad = false
 
     this.extname = path.extname(this._relativePath)
     this.basename = path.basename(this._relativePath)
     this.dirname = path.dirname(this._relativePath)
-    this.staticURL = path.posix.join(config.staticURLBase, this._relativePath)
+    this.staticURL = path.posix.join(this._staticBaseURL, this._relativePath)
     this.size = 0
     this.createdAt = null
     this.updatedAt = null
@@ -70,7 +76,12 @@ export default class Node {
     const childResolver = childResolvers[this._fs]
     const children = await childResolver(this._absolutePath)
     return Promise.all(
-      children.map(fp => new Node(path.join(this._relativePath, fp)).resolve())
+      children.map(fp => new Node({
+        fs: this._fs,
+        context: this._context,
+        staticBaseURL: this._staticBaseURL,
+        path: path.join(this._relativePath, fp)
+      }).resolve())
     )
   }
 }
