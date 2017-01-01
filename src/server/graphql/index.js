@@ -6,6 +6,7 @@ import {
 
 import { NodeType, FileType, DirectoryType } from './types'
 import Node from '../lib/Node'
+import config from '../../config'
 
 export default new GraphQLSchema({
   types: [NodeType, FileType, DirectoryType],
@@ -18,7 +19,7 @@ export default new GraphQLSchema({
           uri: { type: GraphQLString }
         },
         resolve: async (parent, args, request) => {
-          const node = await new Node(args.uri || '/').resolve()
+          const node = await new Node(args.uri || '/', config.FS).resolve()
           console.log('node: ', node)
           return node
         }

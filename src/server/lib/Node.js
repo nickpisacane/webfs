@@ -1,6 +1,5 @@
 import fs from 'fs'
 import path from 'path'
-import config from '../config'
 
 const statResolvers = {
   LOCAL_FS: filePath => {
@@ -30,8 +29,9 @@ const childResolvers = {
 }
 
 export default class Node {
-  constructor (uri) {
-    this._relativePath = uri
+  constructor (relativePath, fs) {
+    this._relativePath = relativePath
+    this._fs = fs
     this._absolutePath = path.join(config.context, this._relativePath)
     this._ext = path.extname(this._relativePath)
     this._didLoad = false
@@ -50,7 +50,7 @@ export default class Node {
 
   async _load () {
     if (this._didLoad) return
-    const statResolver = statResolvers[config.FS]
+    const statResolver = statResolvers[this._fs]
     this._didLoad = true
     try {
       const stat = await statResolver(this._absolutePath)
@@ -67,7 +67,7 @@ export default class Node {
   async children () {
     await this._load()
     if (!this.isDirectory) return null
-    const childResolver = childResolvers[config.FS]
+    const childResolver = childResolvers[this._fs]
     const children = await childResolver(this._absolutePath)
     return Promise.all(
       children.map(fp => new Node(path.join(this._relativePath, fp)).resolve())
