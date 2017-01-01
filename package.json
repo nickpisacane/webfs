@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "gulp",
+    "build-babel": "./node_modules/.bin/babel src -d build",
     "start": "node build/server/index.js",
     "dev": "./node_modules/.bin/nodemon --watch build build/server/index.js"
   },
@@ -31,6 +32,7 @@
   },
   "dependencies": {
     "apollo-client": "^0.5.25",
+    "del": "^2.2.2",
     "express": "^4.14.0",
     "express-graphql": "^0.6.1",
     "graphql": "^0.8.2",
