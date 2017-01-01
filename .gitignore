@@ -49,3 +49,6 @@ jspm_packages
 # Ignore compiled files
 build
 static/_bundle.js
+
+# Ignore fixtures (used for dev)
+fixtures
