@@ -6,15 +6,30 @@ import { match, RouterContext } from 'react-router'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import ApolloClient, { createNetworkInterface } from 'apollo-client'
 import { ApolloProvider, renderToStringWithData } from 'react-apollo'
+import graphqlHTTP from 'express-graphql'
 
 import routes from '../routes'
 import Html from '../routes/Html'
-import muiTheme from '../client/muiTheme'
+import theme from '../theme'
+import schema from './graphql'
 
 const app = express()
 const staticBasePath = path.resolve(path.join(__dirname, '..', '..', 'static'))
 
 app.use('/static', express.static(staticBasePath))
+
+app.use('/graphql', graphqlHTTP({
+  schema,
+  graphiql: true,
+  formatError: error => {
+    console.error(error.stack)
+    return {
+      message: error.message,
+      locations: error.locations,
+      stack: error.stack
+    }
+  }
+}))
 
 app.use((req, res) => {
   match({
