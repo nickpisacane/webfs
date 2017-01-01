@@ -23,7 +23,7 @@ export default new GraphQLSchema({
             fs: config.get('FS'),
             path: args.uri || '/',
             context: config.get('context'),
-            staticBaseURL: config.get('staticBaseURL'),
+            staticBaseURL: config.get('staticBaseURL')
           }).resolve()
         }
       }

@@ -25,7 +25,7 @@ export default function Html ({ content, state }) {
           rel='stylesheet'
           href='https://fonts.googleapis.com/css?family=Roboto:300,400,500'
         />
-        <style dangerouslySetInnerHTML={{ __html: styles }}/>
+        <style dangerouslySetInnerHTML={{ __html: styles }} />
       </head>
       <body>
         <div id='root' dangerouslySetInnerHTML={{ __html: content }} />

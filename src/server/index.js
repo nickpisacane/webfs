@@ -42,7 +42,6 @@ app.use((req, res) => {
       console.log('ROUTER ERROR: ', err)
       res.status(500)
     } else if (renderProps) {
-
       const client = new ApolloClient({
         networkInterface: createNetworkInterface({
           ssrMode: true,
@@ -55,7 +54,7 @@ app.use((req, res) => {
       const component = (
         <ApolloProvider client={client}>
           <MuiThemeProvider
-            muiTheme={muiTheme({ userAgent: req.headers['user-agent'] })}
+            muiTheme={theme({ userAgent: req.headers['user-agent'] })}
           >
             <RouterContext {...renderProps} />
           </MuiThemeProvider>
@@ -69,7 +68,7 @@ app.use((req, res) => {
         />
         res.send(`<!doctype html>\n${ReactDOM.renderToStaticMarkup(html)}`)
       }).catch(err => {
-        consle.log('RENDERING ERROR: ', err)
+        console.log('RENDERING ERROR: ', err)
         res.status(500).send('Server Error')
       })
     } else {

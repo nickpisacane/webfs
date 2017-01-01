@@ -3,7 +3,7 @@ import test from 'ava'
 import { graphql } from 'graphql'
 
 import schema from '../../../src/server/graphql'
-import config from  '../../../src/config'
+import config from '../../../src/config'
 
 const testFixtures = path.resolve(
   path.join(__dirname, '..', '..', 'test_fixtures')

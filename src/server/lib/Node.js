@@ -22,7 +22,7 @@ const statResolvers = {
 const childResolvers = {
   LOCAL_FS: filePath => new Promise((resolve, reject) => {
     fs.readdir(filePath, (err, files) => {
-      if (err) reject (err)
+      if (err) reject(err)
       resolve(files)
     })
   })

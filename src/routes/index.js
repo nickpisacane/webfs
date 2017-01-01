@@ -1,5 +1,5 @@
 import React from 'react'
-import { Router, IndexRoute, Route, Link } from 'react-router'
+import { Route } from 'react-router'
 import Layout from './Layout'
 
 export default (
