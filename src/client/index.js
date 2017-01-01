@@ -7,7 +7,7 @@ import ApolloClient, { createNetworkInterface } from 'apollo-client'
 import { ApolloProvider } from 'react-apollo'
 
 import routes from '../routes'
-import muiTheme from './muiTheme'
+import theme from '../theme'
 
 injectTapEventPlugin()
 const client = new ApolloClient({
@@ -19,7 +19,7 @@ const client = new ApolloClient({
 
 render((
   <ApolloProvider client={client}>
-    <MuiThemeProvider muiTheme={muiTheme()}>
+    <MuiThemeProvider muiTheme={theme()}>
       <Router history={browserHistory}>
         {routes}
       </Router>
