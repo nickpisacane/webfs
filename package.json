@@ -27,13 +27,13 @@
     "gulp-cached": "^1.1.1",
     "gulp-notify": "^2.2.0",
     "nodemon": "^1.11.0",
-    "sass-npm": "^1.0.2",
     "webpack-stream": "^3.2.0"
   },
   "dependencies": {
-    "@blueprintjs/core": "^1.4.0",
     "apollo-client": "^0.5.25",
     "express": "^4.14.0",
+    "express-graphql": "^0.6.1",
+    "graphql": "^0.8.2",
     "material-ui": "^0.16.6",
     "react": "^15.4.1",
     "react-addons-css-transition-group": "^15.4.1",
