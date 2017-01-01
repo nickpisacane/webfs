@@ -18,10 +18,13 @@ export default new GraphQLSchema({
         args: {
           uri: { type: GraphQLString }
         },
-        resolve: async (parent, args, request) => {
-          const node = await new Node(args.uri || '/', config.FS).resolve()
-          console.log('node: ', node)
-          return node
+        resolve: (parent, args, request) => {
+          return new Node({
+            fs: config.get('FS'),
+            path: args.uri || '/',
+            context: config.get('context'),
+            staticBaseURL: config.get('staticBaseURL'),
+          }).resolve()
         }
       }
     }
