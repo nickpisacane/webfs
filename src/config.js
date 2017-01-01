@@ -1,7 +1,22 @@
 import path from 'path'
 
-export default {
+let config = {
   FS: 'LOCAL_FS',
   context: path.resolve(path.join(__dirname, '..', '..', 'fixtures')),
   staticBaseURL: '/static'
+}
+
+export default {
+  set (prop, value) {
+    config[prop] = value
+  },
+
+  get (prop) {
+    if (!prop) return Object.assign({}, config)
+    return config[prop]
+  },
+
+  merge (opts = {}) {
+    config = Object.assign({}, config, opts)
+  }
 }
