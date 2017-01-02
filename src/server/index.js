@@ -7,6 +7,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import ApolloClient, { createNetworkInterface } from 'apollo-client'
 import { ApolloProvider, renderToStringWithData } from 'react-apollo'
 import graphqlHTTP from 'express-graphql'
+import injectTapEventPlugin from 'react-tap-event-plugin'
 
 import routes from '../routes'
 import Html from '../routes/Html'
@@ -14,7 +15,8 @@ import theme from '../theme'
 import schema from './graphql'
 import config from '../config'
 
-const graphqlHanlder = graphqlHTTP({
+injectTapEventPlugin()
+const graphqlHandler = graphqlHTTP({
   schema,
   graphiql: true,
   formatError: error => {
@@ -33,9 +35,9 @@ export default function createServer () {
     path.join(__dirname, '..', '..', 'static')
   )
 
-  app.use(config.get('internalBaseURL'), internalBasePath)
+  app.use(config.get('internalBaseURL'), express.static(internalBasePath))
   if (config.get('FS') === 'LOCAL_FS') {
-    app.use(config.get('staticBaseURL'), config.get('context'))
+    app.use(config.get('staticBaseURL'), express.static(config.get('context')))
   }
   app.use('/graphql', graphqlHandler)
   app.use(renderHandler)
