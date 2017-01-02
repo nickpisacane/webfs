@@ -1,5 +1,3 @@
-import path from 'path'
-
 let config = {
   FS: 'LOCAL_FS',
   context: process.cwd(),
