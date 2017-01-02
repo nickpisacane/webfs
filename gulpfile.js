@@ -5,6 +5,7 @@ const cache = require('gulp-cached')
 const notify_ = require('gulp-notify')
 const webpack = require('webpack-stream')
 const del = require('del')
+const nodemon = require('gulp-nodemon')
 
 const babelOptions = JSON.parse(fs.readFileSync('.babelrc', 'utf-8'))
 const notify = msg => notify_({
@@ -72,3 +73,15 @@ gulp.task('watch-build-client', () => {
 })
 
 gulp.task('watch', ['default', 'watch-compile', 'watch-build-client'])
+
+gulp.task('dev', ['build-client'], () => {
+  return nodemon({
+    script: './scripts/dev.js',
+    exec: './node_modules/.bin/babel-node',
+    tasks: ['build-client'],
+    watch: 'src',
+    env: {
+      NODE_ENV: 'development'
+    }
+  })
+})
