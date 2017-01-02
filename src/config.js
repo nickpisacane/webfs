@@ -3,7 +3,9 @@ import path from 'path'
 let config = {
   FS: 'LOCAL_FS',
   context: path.resolve(path.join(__dirname, '..', '..', 'fixtures')),
-  staticBaseURL: '/static'
+  staticBaseURL: '/static',
+  internalStaticURL: '__internal__',
+  publicStaticURL: '__static__'
 }
 
 export default {
