@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 
-const scriptURL = `http://localhost:8000/static/_bundle.js`
+const scriptURL = `http://localhost:8000/__internal__/_bundle.js`
 const styles = `
 html, body {
   width: 100%;
