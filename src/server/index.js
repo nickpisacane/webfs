@@ -12,13 +12,9 @@ import routes from '../routes'
 import Html from '../routes/Html'
 import theme from '../theme'
 import schema from './graphql'
+import config from '../config'
 
-const app = express()
-const staticBasePath = path.resolve(path.join(__dirname, '..', '..', 'static'))
-
-app.use('/static', express.static(staticBasePath))
-
-app.use('/graphql', graphqlHTTP({
+const graphqlHanlder = graphqlHTTP({
   schema,
   graphiql: true,
   formatError: error => {
@@ -29,9 +25,25 @@ app.use('/graphql', graphqlHTTP({
       stack: error.stack
     }
   }
-}))
+})
 
-app.use((req, res) => {
+export default function createServer () {
+  const app = express()
+  const internalBasePath = path.resolve(
+    path.join(__dirname, '..', '..', 'static')
+  )
+
+  app.use(config.get('internalBaseURL'), internalBasePath)
+  if (config.get('FS') === 'LOCAL_FS') {
+    app.use(config.get('staticBaseURL'), config.get('context'))
+  }
+  app.use('/graphql', graphqlHandler)
+  app.use(renderHandler)
+
+  return app
+}
+
+function renderHandler (req, res) {
   match({
     routes,
     location: req.originalUrl
@@ -75,6 +87,4 @@ app.use((req, res) => {
       res.status(404).send('Not Found')
     }
   })
-})
-
-app.listen(8000)
+}
