@@ -7,9 +7,7 @@
     "test": "npm run lint && ./node_modules/.bin/ava",
     "build": "./node_modules/.bin/gulp",
     "lint": "./node_modules/.bin/standard",
-    "build-babel": "./node_modules/.bin/babel src -d build",
-    "start": "node build/server/index.js",
-    "dev": "./node_modules/.bin/nodemon --watch build build/server/index.js"
+    "dev": "./node_modules/.bin/gulp dev"
   },
   "keywords": [],
   "author": "",
@@ -30,7 +28,9 @@
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
     "gulp-cached": "^1.1.1",
+    "gulp-nodemon": "^2.2.1",
     "gulp-notify": "^2.2.0",
+    "gulp-standard": "^8.0.3",
     "nodemon": "^1.11.0",
     "standard": "^8.6.0",
     "webpack-stream": "^3.2.0"
@@ -56,7 +56,7 @@
     ],
     "babel": "inherit"
   },
-  "standar": {
+  "standard": {
     "parser": "babel-eslint",
     "ignore": [
       "static",
